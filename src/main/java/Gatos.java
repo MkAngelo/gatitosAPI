@@ -8,16 +8,16 @@
  * @author Mike
  */
 public class Gatos {
-    int id;
+    String id;
     String url;
     String apikey = System.getenv("KEY");
     String image;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
