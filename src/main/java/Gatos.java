@@ -1,3 +1,6 @@
+
+import io.github.cdimascio.dotenv.Dotenv;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -8,9 +11,11 @@
  * @author Mike
  */
 public class Gatos {
+    Dotenv dotenv = Dotenv.load();
+    
     String id;
     String url;
-    String apikey = System.getenv("KEY");
+    String apikey = dotenv.get("KEY");
     String image;
 
     public String getId() {
