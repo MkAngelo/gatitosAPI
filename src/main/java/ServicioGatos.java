@@ -91,4 +91,72 @@ public class ServicioGatos {
             System.out.println(e);
         }
     }
+
+    public static void verFavorito(String apikey) throws IOException{
+        
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url("https://api.thecatapi.com/v1/favourites")
+                .method("GET", null)
+                .addHeader("x-api-key", apikey)
+                .build();
+        Response response = client.newCall(request).execute();
+
+        String elJson = response.body().string();
+
+        Gson gson = new Gson();
+        
+        GatosFav[] gatosArray = gson.fromJson(elJson,GatosFav[].class);
+        if(gatosArray.length > 0){
+            int min = 1;
+            int max = gatosArray.length;
+            int aleatorio = (int) (Math.random() * ((max-min)+1)) + min;
+            int indice = aleatorio - 1;
+
+            GatosFav gatofav = gatosArray[indice];
+            
+            Image image = null;
+            try {
+                URL url = new URL(gatofav.image.getUrl());
+                image = ImageIO.read(url);
+
+                ImageIcon fondoGato = new ImageIcon(image);
+
+                if (fondoGato.getIconWidth() > 800) {
+                    Image fondo = fondoGato.getImage();
+                    Image modificada = fondo.getScaledInstance(800, 600, java.awt.Image.SCALE_SMOOTH);
+                    fondoGato = new ImageIcon(modificada);
+                }
+
+                String menu = "Opciones:\n " + "1.  Ver otro gato\n" + "2. Eliminar Favorito\n" + "3. Volver al menu\n";
+                String[] botones = {"Ver otra imagen", "Eliminar Favorito", "Volver"};
+                String id_gato = gatofav.getId();
+                String opcion = (String) JOptionPane.showInputDialog(null, menu, id_gato, JOptionPane.INFORMATION_MESSAGE, fondoGato, botones, botones[0]);
+
+                int seleccion = -1;
+                for (int i = 0; i < botones.length; i++) {
+                    if (opcion.equals(botones[i])) {
+                        seleccion = i;
+                    }
+                }
+
+                switch (seleccion) {
+                    case 0:
+                        verFavorito(apikey);
+                        break;
+                    case 1:
+                        borrarFavorito(gatofav);
+                        break;
+                    default:
+                        break;
+                }
+            } catch (IOException e) {
+                System.out.println(e);
+            }
+        }
+    }
+    
+    public static void borrarFavorito(GatosFav gatofav){
+        
+    }
 }

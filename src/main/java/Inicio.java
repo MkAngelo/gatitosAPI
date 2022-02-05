@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
 public class Inicio {
     public static void main(String[] args) throws IOException{
         int opcionMenu = -1;
-        String[] botones = {"1. Ver Gatos", "2. Salir"};
+        String[] botones = {"1. Ver Gatos", "2. Ver Favoritos","3. Salir"};
         
         do{
             String opcion = (String) JOptionPane.showInputDialog(null, "Gatitos Java", "Menu Principal", JOptionPane.INFORMATION_MESSAGE, null, botones, botones[0]);
@@ -28,6 +28,10 @@ public class Inicio {
             switch(opcionMenu){
                 case 0:
                     ServicioGatos.verGatos();
+                    break;
+                case 1:
+                    Gatos gato = new Gatos();
+                    ServicioGatos.verFavorito(gato.getApikey());
                     break;
                 default:
                     break;
